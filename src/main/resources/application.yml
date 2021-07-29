@@ -1,0 +1,17 @@
+
+# Database
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: test
+
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+# Server configuration
+server:
+  port: 8080
