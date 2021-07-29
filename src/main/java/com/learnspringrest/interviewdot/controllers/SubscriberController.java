@@ -23,9 +23,6 @@ public class SubscriberController {
     @PostMapping(value = "/subscribers")
     public void createSubscriber(@RequestBody SubscriberDto subscriberDto) {
         subscriberRepository.save(modelMapper.map(subscriberDto, Subscriber.class));
-        for (int i = 0; i < 1000000; i++) {
-            subscriberRepository.save(modelMapper.map(subscriberDto, Subscriber.class));
-        }
     }
 
     @GetMapping(value = "/subscribers", produces = "application/json")
@@ -34,5 +31,14 @@ public class SubscriberController {
         return subscribers.stream()
                 .map(subscriber -> modelMapper.map(subscriber, SubscriberDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping(value = "/subscribers/{subscriberId}", produces = "application/json")
+    public SubscriberDto getSubscriberById(@PathVariable String subscriberId) {
+        Subscriber subscriber = subscriberRepository.findById(subscriberId)
+                .orElseThrow(() -> new RuntimeException(
+                        "subscriber not found"
+                ));
+        return modelMapper.map(subscriber, SubscriberDto.class);
     }
 }
